@@ -20,11 +20,12 @@ harness/
     vue-feature/SKILL.md           Implement a nontrivial feature
     vue-debug/SKILL.md             Investigate and fix a defect
     vue-review/SKILL.md            Review implementation changes
+    harness-improve/SKILL.md       Evaluate and improve the harness from evidence
   examples/feature-architecture.md
 adapters/claude/CLAUDE.md           Imports the adopted AGENTS.md
 ```
 
-`harness/` is one portable payload. The four standards own technical guidance; the three skills own task workflows and link to those standards. The example demonstrates their use. The root and template `AGENTS.md` serve different repositories: maintenance here, application work after adoption.
+`harness/` is one portable payload. The four standards own technical guidance; three Vue skills own development workflows, and `harness-improve` owns harness evaluation and improvement. The example demonstrates feature coordination. The root and template `AGENTS.md` serve different repositories: maintenance here, application work after adoption.
 
 ## Progressive disclosure
 
@@ -54,8 +55,8 @@ The authoritative skill bodies stay in `harness/skills/`. Add one directory syml
 
 | Host | Discovery directory | Explicit use |
 | --- | --- | --- |
-| Codex | `.agents/skills/` | `$vue-feature`, `$vue-debug`, `$vue-review` |
-| Claude Code | `.claude/skills/` | `/vue-feature`, `/vue-debug`, `/vue-review` |
+| Codex | `.agents/skills/` | `$vue-feature`, `$vue-debug`, `$vue-review`, `$harness-improve` |
+| Claude Code | `.claude/skills/` | `/vue-feature`, `/vue-debug`, `/vue-review`, `/harness-improve` |
 
 Both hosts document support for linked skill directories. Codex reads project `AGENTS.md`; the Claude adapter imports the same agreement. Skills can also be selected by relevance. See [Codex instructions](https://learn.chatgpt.com/docs/agent-configuration/agents-md), [Codex skills](https://learn.chatgpt.com/docs/build-skills), [Claude instructions and imports](https://code.claude.com/docs/en/memory), and [Claude skills](https://code.claude.com/docs/en/skills).
 
@@ -63,7 +64,7 @@ On macOS/Linux, from the **application root**, run the following for both hosts,
 
 ```sh
 mkdir -p .agents/skills .claude/skills
-for name in vue-feature vue-debug vue-review; do
+for name in vue-feature vue-debug vue-review harness-improve; do
   ln -s "../../harness/skills/$name" ".agents/skills/$name"
   ln -s "../../harness/skills/$name" ".claude/skills/$name"
 done
@@ -74,7 +75,7 @@ On Windows, directory symbolic links require Developer Mode or permission to cre
 ```powershell
 foreach ($discoveryDir in @('.agents/skills', '.claude/skills')) {
     New-Item -ItemType Directory -Path $discoveryDir -Force | Out-Null
-    foreach ($skillName in @('vue-feature', 'vue-debug', 'vue-review')) {
+    foreach ($skillName in @('vue-feature', 'vue-debug', 'vue-review', 'harness-improve')) {
         $skillTarget = (Resolve-Path "harness/skills/$skillName").Path
         New-Item -ItemType SymbolicLink -Path "$discoveryDir/$skillName" -Target $skillTarget
     }
@@ -83,7 +84,7 @@ foreach ($discoveryDir in @('.agents/skills', '.claude/skills')) {
 
 If link creation is unavailable, keep the single canonical bundle and ask the agent to read `harness/skills/vue-feature/SKILL.md` (or the other named skill) explicitly. This fallback supplies the workflow without promising automatic discovery. Do not maintain second copies of skill bodies.
 
-Start a fresh agent session in the application root. Ask it to identify the active agreement, list the three skills, and open one linked standard. Confirm the result against the files and the host's skill listing, not only its assertion. Check for conflicting global/nested instructions or an existing skill with the same name if discovery is unexpected. In Claude, `/memory` helps inspect loaded instructions.
+Start a fresh agent session in the application root. Ask it to identify the active agreement, list the four skills, and open one linked standard. Confirm the result against the files and the host's skill listing, not only its assertion. Check for conflicting global/nested instructions or an existing skill with the same name if discovery is unexpected. In Claude, `/memory` helps inspect loaded instructions.
 
 ## Claude Code using Amazon Bedrock
 
@@ -130,10 +131,19 @@ For each run, note whether the right guidance was retrieved, behavior was correc
 
 Change a standard after a recurring defect or a real feature reveals a gap. Keep the technical rule in its owning document; skills should link to it. Add another skill or reference only when a distinct recurring need warrants it. Record the adopted harness revision in the application's adoption commit or review, and update the bundle through normal diff review.
 
+Use [harness-improve](harness/skills/harness-improve/SKILL.md) to compare a baseline with a candidate harness or turn accepted team feedback into a scoped, reviewable change. It diagnoses the cause before adding rules and keeps team decisions authoritative; invoking it does not silently rewrite policy. Routine documentation corrections need no full evaluation cycle.
+
+Example requests, with actual task or review references supplied:
+
+- "Use harness-improve to compare our current workflow with this harness on these completed tasks. Keep historical solutions out of the replay context."
+- "Use harness-improve to examine these accepted review corrections and prepare the smallest justified guidance change. Report evidence, tradeoffs, and verification limits."
+
+The skill provides a workflow and reference material. It does not schedule recurring runs or implement an evaluation platform.
+
 When changing this repository, check:
 
 - Root and template instructions remain small (target roughly 400–700 tokens each; tokenization varies).
-- Exactly three skills have valid `name`/`description` metadata matching their folders.
+- All four skills have valid `name`/`description` metadata matching their folders.
 - Links work both here and through the documented installed paths; the Claude import resolves after adoption.
 - Standards and examples agree, use Vue 3.5-compatible APIs, and keep dependency decisions explicit.
 - The full diff, including new files, introduces no app, package manifest, or unrelated tooling.

@@ -17,6 +17,8 @@ This repository contains reusable engineering instructions, not an application. 
 3. Make the smallest cohesive change. Update related links or examples when their contracts change, without unrelated cleanup.
 4. Keep startup instructions around 400–700 tokens. Put task-specific detail in the relevant standard or skill rather than automatically loading every document.
 
+For harness evaluation or improvements from team feedback, use [harness-improve](harness/skills/harness-improve/SKILL.md). Routine documentation edits do not need an evaluation study.
+
 ## Verification and handoff
 
 Check skill frontmatter, relative references in both source and installed layouts, the three manual evaluation tasks, and the final diff. Review examples for state ownership, lifecycle and asynchronous errors when relevant. Report checks actually run, outcomes, and missing tooling; never imply an application build or test ran here.

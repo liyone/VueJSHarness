@@ -27,5 +27,6 @@ Paths below are relative to the **project root**, after adoption. They are point
 | Nontrivial feature | `harness/skills/vue-feature/SKILL.md` |
 | Defect investigation and repair | `harness/skills/vue-debug/SKILL.md` |
 | Implementation review | `harness/skills/vue-review/SKILL.md` |
+| Harness evaluation and team feedback | `harness/skills/harness-improve/SKILL.md` |
 
-For a concrete coordination example, read `harness/examples/feature-architecture.md` only when useful.
+Coordination example, when useful: `harness/examples/feature-architecture.md`.
