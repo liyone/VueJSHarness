@@ -4,6 +4,8 @@ A small, reusable coding agreement for engineers and agents working in an existi
 
 Favor a readable feature component, meaningful stateful logic in a composable, and presentational components when they earn their place. Keep simple local state local. Extract by responsibility and practical benefit, never by file length. Existing application code is context to inspect, not automatically architecture to imitate.
 
+For learning an existing system across repositories, the independent [microservice onboarding skill](onboarding/README.md) provides guided architecture and code walkthroughs for Claude Code and Codex. Copy its `onboarding/` folder separately; it is not part of the Vue harness adoption payload.
+
 ## Layout
 
 ```text
@@ -23,6 +25,9 @@ harness/
     harness-improve/SKILL.md       Evaluate and improve the harness from evidence
   examples/feature-architecture.md
 adapters/claude/CLAUDE.md           Imports the adopted AGENTS.md
+onboarding/
+  SKILL.md                       Learn a microservice system across repositories
+  README.md                      Portable prompt and optional host discovery
 ```
 
 `harness/` is one portable payload. The four standards own technical guidance; three Vue skills own development workflows, and `harness-improve` owns harness evaluation and improvement. The example demonstrates feature coordination. The root and template `AGENTS.md` serve different repositories: maintenance here, application work after adoption.
@@ -31,7 +36,7 @@ adapters/claude/CLAUDE.md           Imports the adopted AGENTS.md
 
 Start with the small project `AGENTS.md` and, where supported, skill names and descriptions. Load a relevant skill when undertaking its task. Follow its links only for the behavior being changed: architecture for boundaries, reactivity for reactive defects, reliability for asynchronous work, testing for test decisions. A wording fix needs none of this ceremony.
 
-Skill files use only the portable `name` and `description` frontmatter fields from the [Agent Skills specification](https://agentskills.io/specification). Provider commands live in this README and the import adapter, not in canonical skills. Discovery behavior belongs to the host, as described by the [Agent Skills client guide](https://agentskills.io/client-implementation/adding-skills-support).
+Skill files use only the portable `name` and `description` frontmatter fields from the [Agent Skills specification](https://agentskills.io/specification). Provider commands live in the relevant README and import adapter, not in canonical skills. Discovery behavior belongs to the host, as described by the [Agent Skills client guide](https://agentskills.io/client-implementation/adding-skills-support).
 
 ## Adopt in an existing Vue 3.5 repository
 
@@ -143,7 +148,7 @@ The skill provides a workflow and reference material. It does not schedule recur
 When changing this repository, check:
 
 - Root and template instructions remain small (target roughly 400–700 tokens each; tokenization varies).
-- All four skills have valid `name`/`description` metadata matching their folders.
+- All four harness skills and the independent onboarding skill have valid `name`/`description` metadata matching their folders.
 - Links work both here and through the documented installed paths; the Claude import resolves after adoption.
 - Standards and examples agree, use Vue 3.5-compatible APIs, and keep dependency decisions explicit.
 - The full diff, including new files, introduces no app, package manifest, or unrelated tooling.
